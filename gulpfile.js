@@ -15,10 +15,10 @@ var babelify = require("babelify");
 
 
 var paths = {
-    "javaScript": ['app/**/*.js'],
-    "scss": ['style/**/*.scss'],
+    "javaScript": ['dev/**/*.js'],
+    "scss": ['dev/**/*.scss'],
     "html": ['mosaic.html'],
-    "tests": ['test/spec/*.js']
+    "tests": ['spec/**/*.js']
 }
 
 gulp.task('html', function() {
@@ -33,6 +33,9 @@ gulp.task('sass', function () {
     .pipe(sourcemaps.init())
     .pipe(sass())
     .pipe(sourcemaps.write('./maps'))
+    .pipe(rename({
+        dirname: './',
+    }))
     .pipe(gulp.dest('./css'))
     .pipe(livereload());
 });
@@ -68,15 +71,15 @@ gulp.task('test', function (done) {
 });
 
 var customOpts = {
-  entries: ['./app/index.js'],
+  entries: ['./dev/app/index.js'],
   debug: true
 };
 var opts = assign({}, watchify.args, customOpts);
 var b = watchify(browserify(opts));
 
-  b.transform(babelify);
-
-// i.e. b.transform(coffeeify);
+b.transform(babelify.configure({
+      extensions: '.js'
+    }));
 
 gulp.task('browserify', ['lint'], bundle); // so you can run `gulp js` to build the file
 b.on('update', bundle); // on any dep update, runs the bundler
@@ -86,14 +89,14 @@ function bundle() {
   return b.bundle()
     // log errors if they happen
     .on('error', gutil.log.bind(gutil, 'Browserify Error'))
-    .pipe(source('app.js'))
+    .pipe(source('./dev/app/index.js'))
     // optional, remove if you don't need to buffer file contents
     .pipe(buffer())
-    // optional, remove if you dont want sourcemaps
-    .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
-       // Add transformation tasks to the pipeline here.
     .pipe(sourcemaps.write('./maps')) // writes .map file
-    .pipe(rename({basename: 'client'}))
+    .pipe(rename({
+      dirname: './',
+      basename: 'client'
+    }))
     .pipe(gulp.dest('./js'))
     .pipe(livereload());
 }

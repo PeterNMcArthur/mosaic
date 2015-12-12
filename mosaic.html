@@ -1,12 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script type="text/javascript" src="js/mosaic.js"></script>
-    <script type="text/javascript" src="js/client.js"></script>
     <link rel="stylesheet" href="/css/style.css" media="screen" title="no title" charset="utf-8">
     <title>Mosaic</title>
   </head>
   <body>
-    <!-- Edit me. -->fds
+    <div class="container">
+      <header>
+        <h1>The awesome Mosaic maker tool</h1>
+      </header>
+      <main>
+        <label class="upload-label" for="upload-input">
+          <span class="upload-label-text">
+            click here to upload an image file
+          </span>
+        </label>
+        <form action="/upload" method='post' action='/color' >
+          <input id="upload-input" name="upload-input" type="file">
+          <span class="upload-helper">click the box to upload the image you want to use</span>
+          <input type="submit">
+        </form>
+        <div id="mosaic"></div>
+      </main>
+    </div>
+      <script type="text/javascript" src="js/mosaic.js"></script>
+      <script type="text/javascript" src="js/client.js"></script>
   </body>
 </html>
