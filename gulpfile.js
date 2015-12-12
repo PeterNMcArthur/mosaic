@@ -21,9 +21,9 @@ var paths = {
     "tests": ['test/spec/*.js']
 }
 
-gulp.task('html', function() { 
-    return gulp.src(paths.html ) 
-    .pipe(livereload()); 
+gulp.task('html', function() {
+    return gulp.src(paths.html )
+    .pipe(livereload());
 });
 
 
@@ -33,12 +33,12 @@ gulp.task('sass', function () {
     .pipe(sourcemaps.init())
     .pipe(sass())
     .pipe(sourcemaps.write('./maps'))
-    .pipe(gulp.dest('./')) 
+    .pipe(gulp.dest('./css'))
     .pipe(livereload());
 });
 
 gulp.task('lint', function () {
-        return gulp.src(paths.javaScript) 
+        return gulp.src(paths.javaScript)
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
@@ -59,7 +59,7 @@ var startServer = function() {
 }
 
 gulp.task('test', function (done) {
-     
+
     return karma.server.start({
         configFile: __dirname+'/karma.conf.js',
         logLevel: 'LOG_DISABLE',
@@ -72,7 +72,7 @@ var customOpts = {
   debug: true
 };
 var opts = assign({}, watchify.args, customOpts);
-var b = watchify(browserify(opts)); 
+var b = watchify(browserify(opts));
 
   b.transform(babelify);
 
@@ -93,11 +93,11 @@ function bundle() {
     .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
        // Add transformation tasks to the pipeline here.
     .pipe(sourcemaps.write('./maps')) // writes .map file
-    .pipe(rename({basename: 'client'})) 
-    .pipe(gulp.dest('./js')) 
+    .pipe(rename({basename: 'client'}))
+    .pipe(gulp.dest('./js'))
     .pipe(livereload());
 }
-        
+
 gulp.task('watch', function(){
     livereload.listen();
     startServer();
