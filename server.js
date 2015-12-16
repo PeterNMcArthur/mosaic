@@ -41,7 +41,7 @@ http.createServer(function (req, res) {
       fs.createReadStream(filename).pipe(res);
       return;
     }
-  } else if (m = pathname.match(/^\/color\/([0-9a-fA-F]{6})/)) {
+  } else if (m =  (/^\/color\/([0-9a-fA-F]{6})/)) {
     var hex = m[1];
     if (hex in cache) {
       complete(cache[hex]);
